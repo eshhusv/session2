@@ -17,9 +17,14 @@ namespace session2
         {
             InitializeComponent();
             httpClient = new HttpClient();
-            Task.Run(() => Load());
         }
 
+        private void UpdateList(object state)
+        {
+            grid.Children.Clear();
+            Task.Run(() => Load());
+            Dr();
+        }
         private async Task Load()
         {
              list= await httpClient.GetFromJsonAsync<Response>("http://localhost:4914/PersonLocations");
@@ -123,7 +128,8 @@ namespace session2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Dr();
+            TimerCallback timeCB = new TimerCallback(UpdateList!);
+            Timer time = new Timer(timeCB, null, 0, 3000);
         }
     }
 }

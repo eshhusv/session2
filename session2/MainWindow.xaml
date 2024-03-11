@@ -14,6 +14,6 @@
         <Canvas Name="grid" Grid.Row="0">
             <Image Source="./imgs/img1.png" Grid.Row="0" Width="1920"/>
         </Canvas>
-        <Button Content="Load" Grid.Row="1" Click="Button_Click"/>
+        <Button Content="Подключить" Grid.Row="1" Click="Button_Click"/>
     </Grid>
 </Window>
