@@ -1,15 +1,10 @@
 ﻿using session2.Model;
+
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace session2
@@ -17,6 +12,7 @@ namespace session2
     public partial class MainWindow : Window
     {
         private HttpClient httpClient;
+        private Response? list;
         public MainWindow()
         {
             InitializeComponent();
@@ -26,27 +22,108 @@ namespace session2
 
         private async Task Load()
         {
-            var list = await httpClient.GetFromJsonAsync<ResponseClass>("http://localhost:4914/PersonLocations");
-            foreach(Person i in list.response)
+             list= await httpClient.GetFromJsonAsync<Response>("http://localhost:4914/PersonLocations");
+        }
+        private  void Dr()
+        {
+            if (list != null)
             {
-                          
-                var geometryDrawing = new GeometryDrawing();
-                geometryDrawing.Geometry = new EllipseGeometry(new Point(150, 150), 150, 150);
-                if (i.personRole == "Сотрудник")
-                    geometryDrawing.Brush = Brushes.Blue;
-                else
-                    geometryDrawing.Brush = Brushes.Green;
-
-                var drawingBrush = new DrawingBrush(geometryDrawing);
-
-                var rectangle = new Rectangle();
-                rectangle.Width = 100;
-                rectangle.Height = 100;
-                rectangle.Fill = drawingBrush;
-
-                grid.Children.Add(rectangle);
-
+                foreach (Person i in list!.response!)
+                {
+                    switch (i.lastSecurityPointNumber) 
+                    {
+                        case 0:
+                            setPosition(1050, 180, i);
+                            break;
+                        case 1:
+                            setPosition(1200, 180, i);
+                            break;
+                        case 2:
+                            setPosition(1300, 180, i);
+                            break;
+                        case 3:
+                            setPosition(1400, 180, i);
+                            break;
+                        case 4:
+                            setPosition(1500, 180, i);
+                            break;
+                        case 5:
+                            setPosition(1680, 180, i);
+                            break;
+                        case 6:
+                            setPosition(1800, 180, i);
+                            break;
+                        case 7:
+                            setPosition(1800, 480, i);
+                            break;
+                        case 8:
+                            setPosition(1488, 480, i);
+                            break;
+                        case 9:
+                            setPosition(1350, 480, i);
+                            break;
+                        case 10:
+                            setPosition(1250, 480, i);
+                            break;
+                        case 11:
+                            setPosition(1150, 480, i);
+                            break;
+                        case 12:
+                            setPosition(900, 480, i);
+                            break;
+                        case 13:
+                            setPosition(800, 480, i);
+                            break;
+                        case 14:
+                            setPosition(600, 480, i);
+                            break;
+                        case 15:
+                            setPosition(200, 480, i);
+                            break;
+                        case 16:
+                            setPosition(20, 480, i);
+                            break;
+                        case 17:
+                            setPosition(20, 180, i);
+                            break;
+                        case 18:
+                            setPosition(100, 180, i);
+                            break;
+                        case 19:
+                            setPosition(200, 180, i);
+                            break;
+                        case 20:
+                            setPosition(250, 180, i);
+                            break;
+                        case 21:
+                            setPosition(500, 180, i);
+                            break;
+                        case 22:
+                            setPosition(700, 180, i);
+                            break;
+                    }
+                }
             }
+        }
+
+        private void setPosition(int x, int y, Person i)
+        {
+            Ellipse ellipse = new Ellipse();
+            ellipse.Width = 20;
+            ellipse.Height = 20;
+            if (i.personRole == "Сотрудник")
+                ellipse.Fill = Brushes.Blue;
+            else
+                ellipse.Fill = Brushes.Green;
+
+            Canvas.SetLeft(ellipse, x);
+            Canvas.SetTop(ellipse, y);
+            grid.Children.Add(ellipse);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Dr();
         }
     }
 }
